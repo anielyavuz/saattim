@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "492565763607",
+    "project_id": "acikartirmauygulamasi",
+    "storage_bucket": "acikartirmauygulamasi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:492565763607:android:9360576e84961d37e9ae52",
+        "android_client_info": {
+          "package_name": "com.example.saattim"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKzF1a7HhNHFTRoflMNTWYXc9HR1iGMuo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
