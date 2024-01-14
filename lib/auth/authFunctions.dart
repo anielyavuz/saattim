@@ -2,10 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:the_apple_sign_in/the_apple_sign_in.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: ['email'],
+    hostedDomain: '',
+  );
+  GoogleSignInAccount? _user;
+  GoogleSignInAccount get user => _user!;
+
   Future<Map> anonymSignIn() async {
     Map returnCode = {};
     try {
@@ -81,6 +89,40 @@ class AuthService {
       case AuthorizationStatus.error:
       // TODO: Handle this case.
     }
+  }
+
+  googleLoginFromMainPage() async {
+    await _auth.signOut();
+    final googleUser = await _googleSignIn.signIn();
+
+    if (googleUser == null) return;
+    _user = googleUser;
+    final googleAuth = await googleUser.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    var newUser = await FirebaseAuth.instance.signInWithCredential(credential);
+    print("newUser --- $newUser");
+    await _firestore.collection("Users").doc(newUser.user!.uid).set({
+      "userName": googleUser.displayName,
+      "email": googleUser.email,
+      "photoUrl": googleUser.photoUrl,
+      "registerType": "Google",
+      "id": newUser.user!.uid,
+      "userAuth": "Prod",
+      "userSubscription": "Free",
+    }).then((value) async {
+      //silemedik çünkü user log out oldu ve yetkisi gitti...
+      // var k = await FirebaseFirestore.instance
+      //     .collection("Users")
+      //     .doc(anonymData['id'])
+      //     .delete();
+    });
+    // if (!doesGoogleUserExist(newUser.user!.uid)) {
+    //   await _firestore.collection("Users").doc(newUser.user!.uid).set(anonymData);
+    // }
   }
 
   signOut() async {

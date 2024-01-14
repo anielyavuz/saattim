@@ -43,7 +43,9 @@ class _IntroPageState extends State<IntroPage> {
           children: <Widget>[
             InkWell(
                 onTap: () async {
-                  var a = await _authService.anonymSignIn();
+                  var a = await _authService.googleLoginFromMainPage();
+                  print("Loggg " + a);
+                  // var a = await _authService.anonymSignIn();
                 },
                 child: Container(
                   child: Text("Giris Yap"),

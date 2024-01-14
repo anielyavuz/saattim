@@ -60,10 +60,10 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             InkWell(
                 onTap: () async {
-                  var a = await _authService.appleLoginFromMainPage();
+                  var a = await _authService.googleLoginFromMainPage();
                 },
                 child: Container(
-                  child: Text("Apple Sign In"),
+                  child: Text("Google Sign In"),
                 )),
             InkWell(
                 onTap: () async {
